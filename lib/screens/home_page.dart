@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toku/components/category_item.dart';
+import 'package:toku/data.dart';
 import 'package:toku/screens/colors_page.dart';
 import 'package:toku/screens/family_members_page.dart';
 import 'package:toku/screens/numbers_page.dart';
@@ -7,6 +8,26 @@ import 'package:toku/screens/phrases_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+  void handelNavigation(BuildContext context, int index) {
+    late Widget widget;
+    switch (index) {
+      case 0:
+        widget = const NumbersPage();
+        break;
+      case 1:
+        widget = const FamilyMembersPage();
+        break;
+      case 2:
+        widget = const ColorsPage();
+        break;
+      case 3:
+        widget = const PhrasesPage();
+        break;
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return widget;
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,45 +37,20 @@ class HomePage extends StatelessWidget {
         backgroundColor: const Color(0xff46322B),
         title: const Text('Toku'),
       ),
-      body: Column(
-        children: [
-          Category(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const NumbersPage();
-              }));
-            },
-            text: 'Numbers',
-            color: const Color(0xffEF9235),
+      body: ListView.separated(
+        padding: EdgeInsets.all(16),
+        separatorBuilder: (_, __) => const SizedBox(
+          height: 14,
+        ),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            handelNavigation(context, index);
+          },
+          child: CategoryScreen(
+            category: categories[index],
           ),
-          Category(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const FamilyMembersPage();
-              }));
-            },
-            text: 'FamilyMembers',
-            color: const Color(0xff558B37),
-          ),
-          Category(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const ColorsPage();
-              }));
-            },
-            text: 'Colors',
-            color: const Color(0xff79359F),
-          ),
-          Category(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const PhrasesPage();
-              }));
-            },
-            text: 'Phrases',
-            color: const Color(0xff50ADC7),
-          ),
-        ],
+        ),
+        itemCount: categories.length,
       ),
     );
   }
