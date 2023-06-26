@@ -1,6 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:toku/components/play_sound_fun.dart';
 import 'package:toku/models/item.dart';
+
+import '../font_styiles.dart';
 
 class ListItem extends StatelessWidget {
   const ListItem(
@@ -36,7 +39,7 @@ class ListItem extends StatelessWidget {
                       ),
                       Text(
                         item.enName,
-                        style:const  TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                         ),
@@ -51,7 +54,7 @@ class ListItem extends StatelessWidget {
                   onPressed: () async {
                     try {
                       final player = AudioPlayer();
-                      await player.play(UrlSource(item.sound));
+                      await player.play(AssetSource(item.sound));
                     } catch (ex) {
                       print(ex);
                     }
@@ -71,7 +74,8 @@ class ListItem extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                    color: const Color(0xffFFF6DC), child: Image.asset(item.image!)),
+                    color: const Color(0xffFFF6DC),
+                    child: Image.asset(item.image!)),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Column(
@@ -80,14 +84,11 @@ class ListItem extends StatelessWidget {
                     children: [
                       Text(
                         item.jpName,
-                        style:  const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+                        style: jpStyle,
                       ),
                       Text(
                         item.enName,
-                        style:const  TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                         ),
@@ -99,13 +100,8 @@ class ListItem extends StatelessWidget {
                   flex: 1,
                 ),
                 IconButton(
-                  onPressed: () async {
-                    try {
-                      final player = AudioPlayer();
-                      await player.play(UrlSource(item.sound));
-                    } catch (ex) {
-                      print(ex);
-                    }
+                  onPressed: () {
+                    playSound(item.sound);
                   },
                   icon: const Icon(
                     Icons.play_arrow,
@@ -136,43 +132,35 @@ class PhraseItem extends StatelessWidget {
       height: 100,
       color: color,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  phrase.jpName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    phrase.jpName,
+                    style: jpStyle,
                   ),
-                ),
-                Text(
-                  phrase.enName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                  Text(
+                    phrase.enName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          const Spacer(
-            flex: 1,
-          ),
           IconButton(
-            onPressed: ()  {
-              try {
-                final player = AudioPlayer();
-                player.play(UrlSource(phrase.sound));
-              } catch (ex) {
-                print(ex);
-              }
+            onPressed: () {
+              playSound(phrase.sound);
             },
-            icon:const  Icon(
+            icon: const Icon(
               Icons.play_arrow,
               color: Colors.white,
               size: 28,
