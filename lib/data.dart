@@ -165,7 +165,7 @@ List<Item> familyMembers = const [
 
 List<Item> numbers = const [
   Item(
-    sound: '$numberPath/number_eight_sound.mp3',
+    sound: '$numberPath/number_one_sound.mp3',
     jpName: 'ichi',
     enName: 'one',
     image: 'assets/images/numbers/number_one.png',
